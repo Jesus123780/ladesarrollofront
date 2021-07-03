@@ -3,7 +3,7 @@ import TodoForm from './TodoForm';
 import SvgComponent from './Nodata/Nodata';
 import { PColor } from '../../assets/colors';
 import { IconEdit, IconDelete, IconDost, IconSuccess } from '../../assets/icons/icons';
-import { ContainerTask, Button, Options, ListTask, ContentNodata, Input, ContainInput } from './styled';
+import { ContainerTask, Button, Options, ListTask, ContentNodata } from './styled';
 
 const Todo = ({ todos, completeTodo, removeTodo, updateTodo }) => {
     const [show, setShow] = useState(false)
@@ -12,7 +12,6 @@ const Todo = ({ todos, completeTodo, removeTodo, updateTodo }) => {
         const body = document.body
         body.addEventListener('keyup', e => e.code === 'Escape' && setShow(false))
         return () => body.removeEventListener('keyup', () => setShow)
-
     }, [setShow])
 
     const [edit, setEdit] = useState({
@@ -33,27 +32,19 @@ const Todo = ({ todos, completeTodo, removeTodo, updateTodo }) => {
         setSuccess(index === success ? true : index)
     }
     // Función para buscar por nombre
-    const [query, SetQuery] = useState('')
-    const [filterName, SetFilterName] = useState(todos)
-
-    React.useMemo(
-        () => {
-            const result = todos.filter(tod => {
-                return tod?.text?.toLowerCase().includes(query);
-            });
-            SetFilterName(result)
-        }, [query, todos])
+    // const [query, SetQuery] = useState('')
+    // const filterFunction = todos.filter(tod=>{
+    //     return tod?.text?.toLowerCase().includes(query);
+    // })
+    // console.log(filterFunction)
     return (<>
-        {!!todos.length && <ContainInput>
-            <Input
-                value={query}
-                onChange={e => {
-                    SetQuery(e.target.value)
-                }}
-                placeholder='Buscar || Filtrar por nombres ' />
-        </ContainInput>}
-
-        {filterName.length ? filterName?.map((todo, index) => (
+        {/* <Input
+            value={query}
+            onChange={e => {
+                SetQuery(e.target.value)
+            }}
+            placeholder='Buscar' /> */}
+        {todos.length ? todos?.map((todo, index) => (
             <ContainerTask key={index}>
                 <Options show={show === index}>
                     {/* Eliminar */}
