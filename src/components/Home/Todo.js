@@ -3,7 +3,7 @@ import TodoForm from './TodoForm';
 import SvgComponent from './Nodata/Nodata';
 import { PColor } from '../../assets/colors';
 import { IconEdit, IconDelete, IconDost, IconSuccess } from '../../assets/icons/icons';
-import { ContainerTask, Button, Options, ListTask, ContentNodata, Input } from './styled';
+import { ContainerTask, Button, Options, ListTask, ContentNodata, Input, ContainInput } from './styled';
 
 const Todo = ({ todos, completeTodo, removeTodo, updateTodo }) => {
     const [show, setShow] = useState(false)
@@ -34,17 +34,26 @@ const Todo = ({ todos, completeTodo, removeTodo, updateTodo }) => {
     }
     // Función para buscar por nombre
     const [query, SetQuery] = useState('')
-    const filterFunction = todos.filter(tod=>{
-        return tod?.text?.includes(query);
-    })
+    const [filterName, SetFilterName] = useState(todos)
+
+    React.useMemo(
+        () => {
+            const result = todos.filter(tod => {
+                return tod?.text?.toLowerCase().includes(query);
+            });
+            SetFilterName(result)
+        }, [query, todos])
     return (<>
-        <Input
-            value={query}
-            onChange={e => {
-                SetQuery(e.target.value)
-            }}
-            placeholder='Buscar' />
-        {todos.length ? filterFunction?.map((todo, index) => (
+        {!!todos.length && <ContainInput>
+            <Input
+                value={query}
+                onChange={e => {
+                    SetQuery(e.target.value)
+                }}
+                placeholder='Buscar || Filtrar por nombres ' />
+        </ContainInput>}
+
+        {filterName.length ? filterName?.map((todo, index) => (
             <ContainerTask key={index}>
                 <Options show={show === index}>
                     {/* Eliminar */}
