@@ -59,7 +59,7 @@ export const Options = styled.div`
     display: grid;
     transition: all 200ms ease-in-out;
     display: flex;
-  ${ ({ show }) => show
+  ${ ({ show }) => !show
         ? css`
                   visibility: visible;
                   opacity: 1;

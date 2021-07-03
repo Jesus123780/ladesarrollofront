@@ -7,7 +7,7 @@ import { ContainerTask, Button, Options, ListTask, ContentNodata } from './style
 
 const Todo = ({ todos, completeTodo, removeTodo, updateTodo }) => {
     const [show, setShow] = useState(false)
-    const [success, setSuccess] = useState(false)
+    const [success, setSuccess] = useState(null)
     useEffect(() => {
         const body = document.body
         body.addEventListener('keyup', e => e.code === 'Escape' && setShow(false))
@@ -29,6 +29,9 @@ const Todo = ({ todos, completeTodo, removeTodo, updateTodo }) => {
     if (edit.id) {
         return <TodoForm edit={edit} onSubmit={submitUpdate} />;
     }
+    const handleClick = index => {
+        setSuccess(index === success ? true : index)
+    }
     return (<>{todos.length ? todos?.map((todo, index) => (
         <ContainerTask key={index}>
             <Options show={show === index}>
@@ -37,13 +40,13 @@ const Todo = ({ todos, completeTodo, removeTodo, updateTodo }) => {
                 {/* Editar */}
                 <Button onClick={() => setEdit({ id: todo.id, value: todo.text })}><IconEdit size={30} /></Button>
                 {/* Todo Success */}
-                <Button onClick={() => setSuccess(index === success ? false : index)}><IconSuccess size={30} color={index === success ? '#25AE88' : 'red'} /></Button>
+                <Button onClick={() => handleClick(index)}><IconSuccess size={30} color={index === success ? '#25AE88' : 'red'} /></Button>
             </Options>
             {/* Tareas */}
             <ListTask show={show === index} key={todo.id} onClick={() => completeTodo(todo.id)}>
                 {todo.text}
             </ListTask>
-            <div style={{ display: 'contents' }}><Button absolute onClick={() => setShow(index === show ? false : index)}><IconDost size={30} color={show === index ? PColor : '#CCC'} /></Button></div>
+            <div style={{ display: 'contents' }}><Button onClick={() => setShow(index === show ? false : index)}><IconDost size={30} color={show === index ? PColor : '#CCC'} /></Button></div>
         </ContainerTask>
     )) : <ContentNodata><SvgComponent /></ContentNodata> }</>);
 };
