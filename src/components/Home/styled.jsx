@@ -7,6 +7,7 @@ export const Input = styled.input`
     font-family: PFont-Light;
 `
 export const ContainerTask = styled.div`
+    position: relative;
     display: flex;
     flex-direction: space-between;
     border-radius: 8px;
@@ -32,6 +33,11 @@ export const Button = styled.button`
     outline: none;
     background: transparent;
     cursor: pointer;
+`
+export const Task = styled.div`
+    background: transparent;
+    position: absolute;
+  
 `
 export const ContainInputs = styled.div`
     display: flex;
